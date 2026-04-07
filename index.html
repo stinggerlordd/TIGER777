@@ -1,7 +1,6 @@
-<html lang="en">
-<head>
+<html lang="en"><head>
   <meta charset="UTF-8">
-  <title>TIGER777</title>
+  <title>Tiger777</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body, html {
@@ -17,16 +16,43 @@
     }
   </style>
 </head>
-<body>
-  <iframe id="frame" allowfullscreen></iframe>
+<body cz-shortcut-listen="true">
+  <iframe src="https://tiketone-mamerry.store"
+allowfullscreen=""></iframe>
 
-<script>
-  const urls = [
-    "https://limtiger.store/"
-  ];
 
-  const frame = document.getElementById("frame");
-  frame.src = urls[0];
-</script>
 </body>
-</html>
+<script>
+    const urls = [
+      "https://tiketone-mamerry.store"
+    ];
+
+    const statusEl = document.getElementById("status");
+    const frame = document.getElementById("frame");
+
+    function checkFavicon(url, path="/TIGER777/favicon.ico") {
+      return new Promise(resolve => {
+        const origin = new URL(url).origin;
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = origin + path + "?t=" + Date.now(); // กัน cache
+      });
+    }
+
+    async function run() {
+      for (let url of urls) {
+        statusEl.textContent = "กำลังเช็ค: " + url;
+        const ok = await checkFavicon(url);
+        if (ok) {
+          statusEl.textContent = "พบ favicon: " + url;
+          frame.src = url;
+          frame.style.display = "block";
+          return;
+        }
+      }
+      statusEl.textContent = "ไม่พบลิงก์ไหนที่มี favicon";
+    }
+
+    run();
+  </script></html>
